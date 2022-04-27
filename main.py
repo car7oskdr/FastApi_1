@@ -22,9 +22,25 @@ class HairColor(Enum):
     red = "red"
 
 class Location(BaseModel):
-    city: str
-    state: str
-    country: str
+    #Generar los test de ejemplo en la misma validacion con "example."
+    city: str = Field(
+        ...,
+        min_length = 1,
+        max_length = 50,
+        example="Neza"
+    )
+    state: str = Field(
+        ...,
+        min_length = 1,
+        max_length = 50,
+        example="Mexico"
+    )
+    country: str = Field(
+        ...,
+        min_length = 1,
+        max_length = 50,
+        example="Mexico"
+    )
 
 class Person(BaseModel):
     first_name: str = Field(
@@ -44,6 +60,18 @@ class Person(BaseModel):
     )
     hair_color: Optional[HairColor] = Field(default=None)
     is_married: Optional[bool] = Field(default=None)
+
+    # Generar test automatico de la api.
+    class Config:
+        schema_extra = {
+            "example": {
+                "first_name": "Carlos",
+                "lasta_name": "Vazquez Lara",
+                "age": 33,
+                "hair_color": "black",
+                "is_married": False
+            }
+        }
 
 @app.get("/")
 def home():
